@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container">
+    {% if realtor_list %}
+        {% for item in realtor_list %}
+        <div class="row justify-content-center">
+            <div class="col-10">
+            <div class="card" style="margin-top: 10px;">
+                <div class="row">
+                  <div class="col-4" style="max-width: 200px;">
+                    <img src="{{ item.realtor_image.url }}" class="img-fluid rounded-start" alt="...">
+                  </div>
+                  <div class="col-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ item.first_name }} {{ item.last_name }} {{ item.surname }}</h5>
+                      <p class="card-text">{{ item.description }}</p>
+                      <p class="card-text">Опыт работы: {{ item.experience }} год(а)</p><br>
+                      <span class="card-text">Номер телефона: <span style="font-size: large;">{{ item.phone }}</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    {% else %}
+        <h5>
+            Сейчас нет риелторов.
+        </h5>
+    {% endif %}
+</div>
+
+{% endblock %}

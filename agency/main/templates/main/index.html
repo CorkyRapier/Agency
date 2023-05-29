@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div style="background: rgba(5, 6, 7, 0.5); z-index: 2; position: absolute; width: 100%; height: 92%;"></div>
+<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" style="z-index: 1;">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'image/new.jpg' %}" class="d-block w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'image/new.jpg' %}" class="d-block w-100" alt="">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'image/new.jpg' %}" class="d-block w-100" alt="">
+      </div>
+    </div>
+  </div>
+  <div style="z-index: 300; position: absolute; transform: translate(-50%, -50%); left: 50%; top: 50%;" class="container">
+    <div>
+      <h3 style="color: white; text-align: center; text-shadow: 1px 1px 2px black, 0 0 1em black; margin-bottom: 20px;">
+        Найти себе жильё можно прямо сейчас. <br>Попробуй.
+      </h3>
+      <form class="row g-1" action="{% url 'main:filtered' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+            <div class="col-xl-1">
+              <div>{{ filter_re.type_real_estate }}</div>
+            </div>
+            <div class="col-md-2">
+              <div>{{ filter_re.category }}</div>
+            </div>
+            <div class="col-md-2">
+              <div>{{ filter_re.number_of_rooms }}</div>
+            </div>
+            <div class="col-2">
+              <div>{{ filter_re.price }}</div>
+            </div>
+            <div class="col-md-4">
+              <div>{{ filter_re.area }}</div>
+            </div>
+            <div class="col">
+              <button type="submit" class="btn btn-block text-light" style="height: 50px; margin-left: 5px; background-color: #72747a;">Найти</button>
+            </div>
+      </form> 
+  </div>
+</div>
+<div class="container-xxl" style="background-color: #ffffff;">
+  <div class="row justify-content-xxl-center">
+    <div class="col">
+    </div>
+  </div>
+</div>
+
+{% endblock %}

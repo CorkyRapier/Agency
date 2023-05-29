@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style_for_a.css' %}">
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+   
+</head>
+<body>
+{% include 'inc/_nav.html' %}
+<div style="padding-bottom: 57px;">
+{% block content %}CONTENT{% endblock %}
+</div>
+
+<footer class="text-center fixed-bottom">
+  <div class="text-center p-3" style="background-color: #dde2e3;">
+    © 2023 Copyright:
+    <a class="a-custom" href="{% url 'main:index' %}">Estatelite.com</a>
+  </div>
+  <!-- Copyright -->
+</footer>
+
+    
+</body>
+</html>

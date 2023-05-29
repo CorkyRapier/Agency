@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+
+<div class="container">
+    <h1>Добавление недвижимости</h1>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <form action="{% url 'main:add_estate' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            {{ form.as_p }}
+            
+        
+            <input class="form-control" id="photos" type="file", name="photos" multiple>
+            <br>
+              
+            <button type="submit" class="btn btn-outline-dark">Добавить недвижимость</button>
+        </form>
+        
+    </div>
+</div>
+</div>
+
+{% endblock %}

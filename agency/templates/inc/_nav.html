@@ -1,0 +1,137 @@
+{% load static %}
+{% load navbar_tags %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #dde2e3;">
+    <div class="container-xxl">
+      <a class="navbar-brand" href=""><img src="{% static 'image/logoPng.png' %}" alt="logo" style="height: 40px; width: 40px;"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="{% url 'main:index' %}">Главная</a></li>
+          <a class="nav-item dropdown-toggle nav-link" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Продажи
+          </a>
+          <a class="nav-item dropdown-toggle nav-link" data-bs-toggle="collapse" href="#rentExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Аренда
+          </a>
+          <li class="nav-item"><a class="nav-link" href="{% url 'main:discount' %}">Акции</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'main:realtor' %}">Риелторы</a></li>
+        </ul>
+        {% if request.user.is_authenticated %}
+          {% if not request.user|has_group:"owners" %}
+            <span class="text-muted"><a href="{% url 'main:stay_owner' %}" class="a-custom">Стать владельцем</a> |</span>
+          {% else %}
+            <span class="text-muted"><a href="{% url 'main:add_estate' %}" class="a-custom">Добавить недвижимость</a> |</span>
+          {% endif %}
+        {% endif %}
+        <span class="navbar-text">
+          {% if request.user.is_authenticated %}
+          <span style="margin-left: 2px;">Привет, {{ user.username }}!!! | <a href="{% url 'main:logout' %}" class="a-custom">Выход</a></span>
+          {% else %}
+          {% get_login_form as form %}
+              <div class="dropdown">
+                  <a class="" data-bs-toggle="dropdown">
+                      <span class="navbar-text">Вход</span>
+                  </a>
+                  <div class="dropdown-menu m-3">
+                    <form class="px-4 py-3" action="{% url 'main:login' %}" method="post">
+                      <!-- Email input -->
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                    </form>
+                  </div>
+              </div>
+          </span>|<span class="navbar-text"><a href="{% url 'main:register' %}">Регистрация</a></span>
+        </div>
+          {% endif %}
+      </div>
+  </nav>
+  {% filtered_category_sale as category_sale %}
+  <div class="collapse text-dark" id="collapseExample" style="background-color: #dde2e3;">
+    <div class="container" style="padding-bottom: 20px;">
+      <div class="row justify-content-evenly">
+        <div class="col-2">
+          <h4>Продажи</h4>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-evenly">
+        <div class="col-3">
+          <h5>Жилая</h5>
+            {% for item in category_sale.residential %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="col-3">
+          <h5>Загородная</h5>
+            {% for item in category_sale.country %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="col-3">
+          <h5>Коммерческая</h5>
+            {% for item in category_sale.commercial %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% filtered_category_rent as category_rent %}
+  <div class="collapse text-dark" id="rentExample" style="z-index: 305; position: relative; background-color: #dde2e3;">
+    <div class="container" style="padding-bottom: 20px;">
+      <div class="row justify-content-evenly">
+        <div class="col-2">
+          <h4>Аренда</h4>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-evenly">
+        <div class="col-3">
+          <h5>Жилая</h5>
+            {% for item in category_rent.residential %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="col-3">
+          <h5>Загородная</h5>
+            {% for item in category_rent.country %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+        <div class="col-3">
+          <h5>Коммерческая</h5>
+            {% for item in category_rent.commercial %}
+            <form action="{% url 'main:filtered' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{ item.id }}" name="category">
+              <button style="padding: 0; border: none; background: none;" type="submit" class="a-custom">{{ item.title }}</button><br>
+            </form>
+            {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
